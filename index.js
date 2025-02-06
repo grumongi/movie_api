@@ -1,52 +1,152 @@
-const express = require('express');
-const path = require('path');
-const morgan = require('morgan');
-const app = express();
-const port = 8080;
+const express = require('express'),
+      app = express(),
+      bodyParser = require('body-parser'),
+      uuid = require('uuid'),
+      path = require('path');  
 
-// Use Morgan middleware for logging requests
-app.use(morgan('combined'));
-
-// Serve static files from the public folder
+app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Top 10 Movies Data
-const movies = [
-    { title: "Gladiator", year: 2000, genre: "Action" },
-    { title: "300", year: 2006, genre: "Action" },
-    { title: "300: Rise of an Empire", year: 2014, genre: "Action" },
-    { title: "American Gangster", year: 2007, genre: "Crime" },
-    { title: "Dune: Part Two", year: 2024, genre: "Sci-Fi" },
-    { title: "Paddington 2", year: 2017, genre: "Comedy" },
-    { title: "Avengers: Endgame", year: 2019, genre: "Action" },
-    { title: "Gladiator", year: 2000, genre: "Action" },
-    { title: "The Dark Knight", year: 2008, genre: "Action" },
-    { title: "Pulp Fiction", year: 1994, genre: "Crime" },
+let users = [
+    {
+        "id": 1,
+        "name": 'Patrick William',
+        "favoriteMovies": ['Gladiator']
+    },
+    {
+        "id": 2,
+        "name": 'Shawn Carter',
+        "favoriteMovies": ['Dune: Part Two']
+    },
 ];
 
-// Define the / GET route
-app.get('/', (req, res) => {
-    res.send('Welcome to the Movie API!');
-});
+let movies = [
+    { "Title": "Gladiator", 
+      "Year": 2000, 
+      "Genre": { "Name": "Action" },
+      "Director": { "Name": "Ridley Scott" } 
+    },
 
-// Define the /movies GET route
+    { "Title": "Dune: Part Two", 
+      "Year": 2024, 
+      "Genre": { "Name": "Sci-Fi" },
+      "Director": { "Name": "Denis Villeneuve" } 
+    },
+
+    { "Title": "Pulp Fiction", 
+      "Year": 1994, 
+      "Genre": { "Name": "Crime" },
+      "Director": { "Name": "Quentin Tarantino" }
+    },
+];
+
+// CREATE
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status(201).json(newUser)
+    } else {
+        res.status(400).send('users need names')
+    }
+})
+
+app.post('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => user.id == id);
+
+    if (user) {
+        user.favoriteMovies.push(movieTitle);
+        res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);
+    } else {
+        res.status(400).send('no such user')
+    }
+})
+
+// UPDATE
+app.put('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedUser = req.body;
+
+    let user = users.find( user => user.id == id);
+
+    if (user) {
+        user.name = updatedUser.name;
+        res.status(200.).json(user);
+    } else {
+        res.status(400).send('no such user')
+    }
+})
+
+// READ
 app.get('/movies', (req, res) => {
-    res.json(movies);
+    res.status(200).json(movies);
 });
 
-// Define a route to serve documentation.html
-app.get('/documentation', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'documentation.html'));
+app.get('/movies/:title', (req, res) => {
+    const { title } = req.params;
+    const movie = movies.find(movie => movie.Title === title);
+
+    if (movie) {
+        res.status(200).json(movie);
+    } else {
+        res.status(400).send('No such movie');
+    }
 });
 
-// Error-handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+app.get('/movies/genre/:genreName', (req, res) => {
+    const { genreName } = req.params;
+    const movie = movies.find(movie => movie.Genre.Name === genreName);
+
+    if (movie) {
+        res.status(200).json(movie.Genre);
+    } else {
+        res.status(400).send('No such genre'); 
+    }
 });
 
-// Start the Express server
+app.get('/movies/directors/:directorName', (req, res) => {
+    const { directorName } = req.params;
+    const movie = movies.find(movie => movie.Director.Name === directorName);
+
+    if (movie) {
+        res.status(200).json(movie.Director);
+    } else {
+        res.status(400).send('No such director');
+    }
+});
+
+// DELETE
+app.delete('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
+        res.status(200).send(`${movieTitle} has been deleted from ${id}'s array`);
+    } else {
+        res.status(400).send('no such user')
+    }
+})
+
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+
+    let user = users.find( user => user.id == id);
+
+    if (user) {
+        users = users.filter( user => user.id != id);
+        res.status(200).send(`user ${id}'s has been deleted`);
+    } else {
+        res.status(400).send('no such user')
+    }
+})
+
+// Listen for requests
 app.listen(8080, () => {
     console.log('Your app is listening on port 8080.');
 });
-

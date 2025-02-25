@@ -20,79 +20,106 @@
         </style>
     </head>
     <body>
-        <h1> Movie API Documentation</h1>
-        
-        <h2>1. Get All Movies</h2>
-        <p><strong>Description:</strong> Returns a list of all movies.</p>
-        <p><strong>URL:</strong> <code>/movies</code></p>
-        <p><strong>Method:</strong> GET</p>
-        <p><strong>Example Response:</strong></p>
-        <pre><code>[{"Title": "Gladiator", "Year": 2000, "Genre": { "Name": "Action" }, "Director": { "Name": "Ridley Scott" } }]</code></pre>
-        
-        <h2>2. Get a Specific Movie by Title</h2>
-        <p><strong>Description:</strong> Returns details of a specific movie.</p>
-        <p><strong>URL:</strong> <code>/movies/:title</code></p>
-        <p><strong>Method:</strong> GET</p>
-        <p><strong>Example Request:</strong> <code>/movies/Gladiator</code></p>
-        <p><strong>Example Response:</strong></p>
-        <pre><code>{"Title": "Gladiator", "Year": 2000, "Genre": { "Name": "Action" }, "Director": { "Name": "Ridley Scott" }}</code></pre>
-        
-        <h2>3. Get Movies by Genre</h2>
-        <p><strong>Description:</strong> Returns movies of a specific genre.</p>
-        <p><strong>URL:</strong> <code>/movies/genre/:genreName</code></p>
-        <p><strong>Method:</strong> GET</p>
-        <p><strong>Example Request:</strong> <code>/movies/genre/Action</code></p>
-        <p><strong>Example Response:</strong></p>
-        <pre><code>{"Name": "Action"}</code></pre>
-        
-        <h2>4. Get Director Details</h2>
-        <p><strong>Description:</strong> Returns details about a director.</p>
-        <p><strong>URL:</strong> <code>/movies/directors/:directorName</code></p>
-        <p><strong>Method:</strong> GET</p>
-        <p><strong>Example Request:</strong> <code>/movies/directors/Ridley Scott</code></p>
-        <p><strong>Example Response:</strong></p>
-        <pre><code>{"Name": "Ridley Scott"}</code></pre>
-        
-        <h2>5. Add a New User</h2>
-        <p><strong>Description:</strong> Creates a new user account.</p>
-        <p><strong>URL:</strong> <code>/users</code></p>
-        <p><strong>Method:</strong> POST</p>
-        <p><strong>Example Request Body:</strong></p>
-        <pre><code>{"name": "John Doe"}</code></pre>
-        
-        <h2>6. Add a Movie to a User’s Favorite List</h2>
-        <p><strong>Description:</strong> Adds a movie to a user's favorite list.</p>
-        <p><strong>URL:</strong> <code>/users/:id/:movieTitle</code></p>
-        <p><strong>Method:</strong> POST</p>
-        <p><strong>Example Request:</strong> <code>/users/1/Gladiator</code></p>
-        
-        <h2>7. Update a User’s Name</h2>
-        <p><strong>Description:</strong> Updates a user’s name.</p>
-        <p><strong>URL:</strong> <code>/users/:id</code></p>
-        <p><strong>Method:</strong> PUT</p>
-        <p><strong>Example Request Body:</strong></p>
-        <pre><code>{"name": "Michael Johnson"}</code></pre>
-        
-        <h2>8. Remove a Movie from a User’s Favorite List</h2>
-        <p><strong>Description:</strong> Removes a movie from a user's list.</p>
-        <p><strong>URL:</strong> <code>/users/:id/:movieTitle</code></p>
-        <p><strong>Method:</strong> DELETE</p>
-        
-        <h2>9. Delete a User</h2>
-        <p><strong>Description:</strong> Deletes a user account.</p>
-        <p><strong>URL:</strong> <code>/users/:id</code></p>
-        <p><strong>Method:</strong> DELETE</p>
-        
-        <h2> Final Notes</h2>
-        <p><strong>Status Codes:</strong></p>
-        <ul>
-            <li><code>200 OK</code> - Request successful</li>
-            <li><code>201 Created</code> - Resource created</li>
-            <li><code>400 Bad Request</code> - Client error</li>
-            <li><code>404 Not Found</code> - Resource not found</li>
-        </ul>
-    </body>
-    </html>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie API Documentation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; padding: 20px; }
+        h1, h2 { color: #333; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        code { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Movie API Documentation</h1>
     
+    <h2>1. Get All Movies</h2>
+    <p><strong>Description:</strong> Returns a list of all movies.</p>
+    <p><strong>URL:</strong> <code>/movies</code></p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Example Response:</strong></p>
+    <pre><code>[{"_id": "65f4e2d5a34b9a0012345678", "Title": "Gladiator", "Description": "A general is betrayed and seeks revenge", "Genre": { "Name": "Action", "Description": "Fast-paced movies with physical feats" }, "Director": { "Name": "Ridley Scott", "Bio": "British film director and producer." } }]</code></pre>
+    
+    <h2>2. Get a Specific Movie by Title</h2>
+    <p><strong>Description:</strong> Returns details of a specific movie.</p>
+    <p><strong>URL:</strong> <code>/movies/:title</code></p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Example Request:</strong> <code>/movies/Gladiator</code></p>
+    <p><strong>Example Response:</strong></p>
+    <pre><code>{"_id": "65f4e2d5a34b9a0012345678", "Title": "Gladiator", "Description": "A general is betrayed and seeks revenge", "Genre": { "Name": "Action", "Description": "Fast-paced movies with physical feats" }, "Director": { "Name": "Ridley Scott", "Bio": "British film director and producer." } }</code></pre>
+    
+    <h2>3. Get Movies by Genre</h2>
+    <p><strong>Description:</strong> Returns movies of a specific genre.</p>
+    <p><strong>URL:</strong> <code>/movies/genre/:genreName</code></p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Example Request:</strong> <code>/movies/genre/Action</code></p>
+    <p><strong>Example Response:</strong></p>
+    <pre><code>[{"Title": "Gladiator", "Genre": { "Name": "Action" }}]</code></pre>
+    
+    <h2>4. Get Movies by Director</h2>
+    <p><strong>Description:</strong> Returns movies by a specific director.</p>
+    <p><strong>URL:</strong> <code>/movies/directors/:directorName</code></p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Example Request:</strong> <code>/movies/directors/Ridley Scott</code></p>
+    <p><strong>Example Response:</strong></p>
+    <pre><code>[{"Title": "Gladiator", "Director": { "Name": "Ridley Scott" }}]</code></pre>
+    
+    <h2>5. Add a New User</h2>
+    <p><strong>Description:</strong> Creates a new user account.</p>
+    <p><strong>URL:</strong> <code>/users</code></p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Example Request Body:</strong></p>
+    <pre><code>{"Username": "JohnDoe", "Password": "password123", "Email": "john@example.com", "Birthday": "1990-01-01"}</code></pre>
+    
+    <h2>6. Get All Users</h2>
+    <p><strong>Description:</strong> Returns a list of all users.</p>
+    <p><strong>URL:</strong> <code>/users</code></p>
+    <p><strong>Method:</strong> GET</p>
+    
+    <h2>7. Get User by Username</h2>
+    <p><strong>Description:</strong> Returns details of a specific user.</p>
+    <p><strong>URL:</strong> <code>/users/:Username</code></p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Example Request:</strong> <code>/users/JohnDoe</code></p>
+    
+    <h2>8. Update a User</h2>
+    <p><strong>Description:</strong> Updates a user’s information.</p>
+    <p><strong>URL:</strong> <code>/users/:id</code></p>
+    <p><strong>Method:</strong> PUT</p>
+    <p><strong>Example Request Body:</strong></p>
+    <pre><code>{"Email": "newemail@example.com"}</code></pre>
+    
+    <h2>9. Add a Movie to User’s Favorite List</h2>
+    <p><strong>Description:</strong> Adds a movie to a user's favorite list.</p>
+    <p><strong>URL:</strong> <code>/users/:id/:movieId</code></p>
+    <p><strong>Method:</strong> POST</p>
+    
+    <h2>10. Remove a Movie from User’s Favorite List</h2>
+    <p><strong>Description:</strong> Removes a movie from a user's favorite list.</p>
+    <p><strong>URL:</strong> <code>/users/:id/:movieId</code></p>
+    <p><strong>Method:</strong> DELETE</p>
+    
+    <h2>11. Delete a User</h2>
+    <p><strong>Description:</strong> Deletes a user account.</p>
+    <p><strong>URL:</strong> <code>/users/:id</code></p>
+    <p><strong>Method:</strong> DELETE</p>
+    
+    <h2>Final Notes</h2>
+    <p><strong>Status Codes:</strong></p>
+    <ul>
+        <li><code>200 OK</code> - Request successful</li>
+        <li><code>201 Created</code> - Resource created</li>
+        <li><code>400 Bad Request</code> - Client error</li>
+        <li><code>404 Not Found</code> - Resource not found</li>
+    </ul>
+</body>
+</html>
+    
+</body>
+</html>
+
 </body>
 </html>

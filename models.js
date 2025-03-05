@@ -1,40 +1,45 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-let movieSchema = mongoose.Schema({
+// Movie Schema
+const movieSchema = new mongoose.Schema({
     Title: { type: String, required: true },
     Description: { type: String, required: true },
     Genre: {
-        Name: String,
-        Description: String
+        Name: { type: String },
+        Description: { type: String }
     },
-    Director: { 
-        Name: String, 
-        Bio: String
+    Director: {
+        Name: { type: String },
+        Bio: { type: String }
     },
-    Actors: [String], 
-    ImagePath: String,
-    Featured: Boolean
+    Actors: [{ type: String }],
+    ImagePath: { type: String },
+    Featured: { type: Boolean }
 });
 
-let userSchema = mongoose.Schema({
-    Username: {type: String, required: true},
-    Password: {type: String, required: true},
-    Email: {type: String, required: true},
-    Birthday: Date,
+// User Schema
+const userSchema = new mongoose.Schema({
+    Username: { type: String, required: true },
+    Password: { type: String, required: true },
+    Email: { type: String, required: true },
+    Birthday: { type: Date },
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
-  });
-  
-  userSchema.statics.hashPassword = (password) => {
+});
+
+// Hash Password (Static Method)
+userSchema.statics.hashPassword = function (password) {
     return bcrypt.hashSync(password, 10);
-  };
-  
-  userSchema.methods.validatePassword = function(password) {
+};
+
+// Validate Password (Instance Method)
+userSchema.methods.validatePassword = function (password) {
     return bcrypt.compareSync(password, this.Password);
-  };
-let Movie = mongoose.model('Movie', movieSchema);
-let User = mongoose.model('User', userSchema);
+};
 
-module.exports.Movie = Movie;
-module.exports.User = User;
+// Define Models
+const Movie = mongoose.model('Movie', movieSchema);
+const User = mongoose.model('User', userSchema);
 
-const bcrypt = require('bcrypt');
+// Export Models
+module.exports = { Movie, User };

@@ -290,7 +290,10 @@ app.get('/movies/directors/:directorName', async (req, res) => {
     }
 });
 
-
+app.get("/", (req, res) => {
+    res.send("Welcome to the Cinema Center API!");
+  });
+  
 
 // ✅ Server listens on port 8080
 const port = process.env.PORT || 8080;

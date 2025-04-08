@@ -31,9 +31,13 @@ app.use(cors({
         if (!allowedOrigins.includes(origin)) {
             return callback(new Error(`CORS policy does not allow access from ${origin}`), false);
         }
-        return callback(null, true);
-    }
+        return callback(null, true);  // Allow request from valid origin
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // You can customize the allowed methods here
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers like Content-Type, Authorization
+    credentials: true  // Allow cookies and other credentials
 }));
+
 
 // ✅ Authentication Middleware
 auth(app);

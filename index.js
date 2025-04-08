@@ -22,18 +22,23 @@ mongoose.connect(process.env.CONNECTION_URI, {
 const app = express();
 app.use(bodyParser.json());
 
+
 // ✅ CORS Configuration
-const allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+const allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];  // Updated to include the React app's URL
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
+        if (!origin) return callback(null, true);  // Allow requests with no origin (e.g., mobile apps, curl requests, etc.)
         if (!allowedOrigins.includes(origin)) {
-            return callback(new Error(`CORS policy does not allow access from ${origin}`), false);
+            return callback(new Error(`CORS policy does not allow access from ${origin}`), false);  // Block unauthorized origins
         }
-        return callback(null, true);
-    }
+        return callback(null, true);  // Allow request from valid origin
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // You can customize the allowed methods here
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers like Content-Type, Authorization
+    credentials: true  // Allow cookies and other credentials
 }));
+
 
 // ✅ Authentication Middleware
 auth(app);

@@ -147,8 +147,8 @@ app.post('/users/:id/favorites/:movieId', async (req, res) => {
 /*          MOVIE ROUTES               */
 /* ----------------------------------- */
 
-// ✅ READ - Get all movies (Updated: Removed authentication)
-app.get('/movies', async (req, res) => {
+// ✅ READ - Get all movies (Updated: Re-enabled authentication)
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const movies = await Movies.find();
         res.status(200).json(movies);

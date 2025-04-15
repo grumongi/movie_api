@@ -71,6 +71,8 @@ app.post('/users', [
             Username: req.body.Username,
             Password: hashedPassword,
             Email: req.body.Email,
+            FirstName: req.body.FirstName, // Include FirstName
+            LastName: req.body.LastName,   // Include LastName
             Birthday: req.body.Birthday
         });
 

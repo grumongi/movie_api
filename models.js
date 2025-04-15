@@ -23,10 +23,11 @@ const userSchema = new mongoose.Schema({
     Username: { type: String, required: true },
     Password: { type: String, required: true },
     Email: { type: String, required: true },
+    FirstName: { type: String }, // Add FirstName
+    LastName: { type: String },  // Add LastName
     Birthday: { type: Date },
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
-
 // Hash Password (Static Method)
 userSchema.statics.hashPassword = function (password) {
     return bcrypt.hashSync(password, 10);

@@ -57,7 +57,9 @@ app.post('/users', [
     check('Username', 'Username is required (min 5 characters)').isLength({ min: 5 }),
     check('Username', 'Username must contain only alphanumeric characters').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Invalid email format').isEmail()
+    check('Email', 'Invalid email format').isEmail(),
+    check('FirstName', 'First name is required').not().isEmpty(), // Add validation for FirstName
+    check('LastName', 'Last name is required').not().isEmpty()    // Add validation for LastName
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });

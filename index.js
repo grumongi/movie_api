@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 
 // ✅ CORS Configuration
-const allowedOrigins = ['http://localhost:1234', 'http://testsite.com', 'https://my-amazing-flix-2025.netlify.app'];  // Updated to include the React app's URL
+const allowedOrigins = ['http://localhost:1234', 'http://testsite.com', 'https://my-amazing-flix-2025.netlify.app', 'http://localhost:4200'];  // Updated to include the React app's URL
 
 app.use(cors({
     origin: (origin, callback) => {
